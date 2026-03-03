@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Levant Conquest Master Atlas</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+body { margin:0; font-family:Arial; }
+#map { height:88vh; }
+
+#topbar {
+background:white;
+padding:8px;
+border-bottom:1px solid #ccc;
+}
+
+details { margin-top:6px; }
+summary { font-weight:bold; cursor:pointer; }
+.popup-title { font-size:16px; font-weight:bold; margin-bottom:6px; }
+
+.legend {
+background:white;
+padding:8px;
+font-size:13px;
+line-height:1.4;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="topbar">
+<b>Timeline Phase:</b>
+<select id="phaseSelect">
+<option value="all">All Phases</option>
+<option value="p1">Transjordan</option>
+<option value="p2">Central (Jericho/Ai)</option>
+<option value="p3">Southern Coalition</option>
+<option value="p4">Northern Coalition</option>
+</select>
+
+&nbsp;&nbsp;&nbsp;
+
+<b>Dating Models:</b>
+Early Conquest: ~1406 BCE |
+Late Conquest: ~1230 BCE |
+Critical Range: 1250–1150 BCE (Late Bronze Collapse)
+</div>
+
+<div id="map"></div>
+
+<script>
+
+var map = L.map('map',{minZoom:7,maxZoom:11})
+.setView([31.8,35.0],8);
+
+var bounds=[[29.5,33.5],[34.5,37.5]];
+map.setMaxBounds(bounds);
+
+L.tileLayer(
+'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+{ attribution:'©OpenStreetMap ©CartoDB' }
+).addTo(map);
+
+function marker(lat,lng,color,content,phase){
+var m=L.circleMarker([lat,lng],{
+radius:7,
+fillColor:color,
+color:"#000",
+weight:1,
+fillOpacity:0.9
+});
+m.phase=phase;
+m.bindPopup(content);
+return m;
+}
+
+var markers=[];
+
+/* =====================
+PHASE 1 – TRANSJORDAN
+===================== */
+
+markers.push(marker(31.9,35.95,"#cc0000",
+`<div class='popup-title'>Sihon – King of Heshbon</div>
+
+<b>Phase:</b> Transjordan (Pre-Jordan Crossing)
+
+<details><summary>Biblical Narrative</summary>
+Israel requests passage; Sihon refuses and attacks at Jahaz (Num 21:21–24). Israel defeats him and occupies territory from Arnon to Jabbok.
+</details>
+
+<details><summary>Allies & Sides</summary>
+Israel vs Amorite kingdom of Heshbon. No coalition mentioned.
+</details>
+
+<details><summary>Christian Scholarship</summary>
+Viewed as historically plausible highland tribal conflict prior to westward movement.
+</details>
+
+<details><summary>Critical Scholarship</summary>
+Often interpreted as etiological memory of later territorial claims east of Jordan.
+</details>
+
+<details><summary>Extra-Biblical</summary>
+Heshbon appears in Moabite and regional texts later; no direct reference to battle.
+</details>
+
+<details><summary>Archaeology</summary>
+Settlement evidence in Iron I period consistent with emerging Israelite presence.
+</details>
+`,"p1"));
+
+
+/* =====================
+PHASE 2 – JERICHO
+===================== */
+
+markers.push(marker(31.8667,35.45,"#cc0000",
+`<div class='popup-title'>Jericho (Tell es-Sultan)</div>
+
+<b>Phase:</b> Central Campaign
+
+<details><summary>Full Biblical Narrative</summary>
+Israel crosses Jordan (Josh 3–4). Jericho shut tightly. Seven-day ritual march; trumpets sound; walls collapse. City devoted to herem. Rahab spared.
+</details>
+
+<details><summary>Scripture</summary>
+Joshua 5–6
+</details>
+
+<details><summary>Allies & Forces</summary>
+Israelite tribes vs Canaanite city-state. No coalition.
+</details>
+
+<details><summary>Christian Academic View</summary>
+Some (Bryant Wood) argue 15th-century destruction layer aligns with early date.
+</details>
+
+<details><summary>Critical View</summary>
+Kathleen Kenyon dated major destruction to ~1550 BCE; many argue no fortified city ~1200 BCE.
+</details>
+
+<details><summary>Extra-Biblical Evidence</summary>
+Jericho known in Egyptian texts but no conquest mention.
+</details>
+
+<details><summary>Archaeology</summary>
+Massive Middle Bronze fortifications. Dating debate central to conquest chronology.
+</details>
+`,"p2"));
+
+
+/* =====================
+PHASE 3 – SOUTHERN COALITION
+===================== */
+
+markers.push(marker(31.56,34.85,"#ff6600",
+`<div class='popup-title'>Southern Coalition – Lachish & Allies</div>
+
+<b>Phase:</b> Southern Campaign
+
+<details><summary>Biblical Narrative</summary>
+Adoni-Zedek of Jerusalem forms coalition with Hebron, Jarmuth, Lachish, Eglon (Josh 10). Gibeon attacked; Joshua marches overnight. Battle of Beth-Horon. "Sun stands still." Kings executed at Makkedah.
+</details>
+
+<details><summary>Named Kings (Joshua 10)</summary>
+Adoni-Zedek (Jerusalem), Hoham (Hebron), Piram (Jarmuth), Japhia (Lachish), Debir (Eglon).
+</details>
+
+<details><summary>Christian View</summary>
+Seen as historical memory of regional coalition war; miracle account theological emphasis.
+</details>
+
+<details><summary>Critical View</summary>
+Often considered composite tradition explaining later Israelite dominance in highlands.
+</details>
+
+<details><summary>Extra-Biblical</summary>
+Jerusalem, Lachish appear in Amarna letters (~1350 BCE).
+</details>
+
+<details><summary>Archaeology</summary>
+Multiple southern cities show destruction layers Late Bronze–Iron I, though causes debated.
+</details>
+`,"p3"));
+
+
+/* =====================
+PHASE 4 – NORTHERN COALITION
+===================== */
+
+markers.push(marker(33.017,35.567,"#cc0000",
+`<div class='popup-title'>Hazor – Northern Coalition</div>
+
+<b>Phase:</b> Northern Campaign
+
+<details><summary>Biblical Narrative</summary>
+Jabin of Hazor forms large northern alliance (Josh 11). Battle at Waters of Merom. Hazor burned; others not burned.
+</details>
+
+<details><summary>Named King</summary>
+Jabin of Hazor
+</details>
+
+<details><summary>Christian View</summary>
+Late 13th-century destruction layer at Hazor often cited as strong correlation.
+</details>
+
+<details><summary>Critical View</summary>
+Destruction may relate to Sea Peoples or internal revolt.
+</details>
+
+<details><summary>Extra-Biblical</summary>
+Hazor prominent in Amarna letters.
+</details>
+
+<details><summary>Archaeology</summary>
+Extensive excavation (Yigael Yadin). Burn layer significant.
+</details>
+`,"p4"));
+
+
+/* =====================
+31 KINGS LIST
+===================== */
+
+markers.push(marker(32.0,35.2,"#ffaa00",
+`<div class='popup-title'>Joshua 12 – The 31 Kings</div>
+
+<details><summary>Textual Summary</summary>
+Joshua 12 lists 31 defeated kings including Jericho, Ai, Jerusalem, Hebron, Jarmuth, Lachish, Eglon, Gezer, Debir, Hormah, Arad, Libnah, Adullam, Makkedah, Bethel, Tappuah, Hepher, Aphek, Lasharon, Madon, Hazor, Shimron-Meron, Achshaph, Taanach, Megiddo, Kedesh, Jokneam, Dor, Goiim in Gilgal, Tirzah.
+</details>
+
+<details><summary>Christian Perspective</summary>
+Viewed as historical campaign summary preserving authentic place names.
+</details>
+
+<details><summary>Critical Perspective</summary>
+Often interpreted as Deuteronomistic editorial framework; some cities show no destruction evidence.
+</details>
+
+<details><summary>Archaeological Status</summary>
+Some (Hazor, Lachish) show destruction. Others (Jericho, Ai) debated. Many unexcavated or inconclusive.
+</details>
+`,"all"));
+
+markers.forEach(m=>m.addTo(map));
+
+document.getElementById("phaseSelect").onchange=function(){
+var val=this.value;
+markers.forEach(function(m){
+if(val=="all"){map.addLayer(m);}
+else{
+if(m.phase==val) map.addLayer(m);
+else map.removeLayer(m);
+}
+});
+};
+
+var legend=L.control({position:'bottomright'});
+legend.onAdd=function(){
+var div=L.DomUtil.create('div','legend');
+div.innerHTML=
+"<b>Legend</b><br>"+
+"<span style='color:#cc0000'>●</span> Major Siege<br>"+
+"<span style='color:#ff6600'>●</span> Coalition Campaign<br>"+
+"<span style='color:#ffaa00'>●</span> Summary / List Node<br>";
+return div;
+};
+legend.addTo(map);
+
+</script>
+</body>
+</html>
